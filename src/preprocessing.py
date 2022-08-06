@@ -6,14 +6,11 @@ telecom_data = pd.read_csv("inputs/telecom_raw.csv")
 
 print(telecom_data.shape)
 
-print(telecom_data['TotalCharges'].values)
-
-print(telecom_data[pd.to_numeric(telecom_data.TotalCharges, errors='coerce').isnull()].shape)
-
 # Dropping the rows having TotalCharges null
 
 modified_telecom_data = telecom_data[telecom_data.TotalCharges != ' ']
-print(modified_telecom_data.shape)
+print("Missing values in TotalCharges Column:",modified_telecom_data.shape)
+
 modified_telecom_data.TotalCharges = pd.to_numeric(modified_telecom_data.TotalCharges)
 
 tenure_churn_no = modified_telecom_data[modified_telecom_data["Churn"]=='No'].tenure
