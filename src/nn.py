@@ -33,4 +33,4 @@ model.compile(optimizer = 'adam',
 model.fit(X_train, y_train, epochs=200)
 
 
-print("X_test Evaluation:", model.evaluate(X_test, y_test))
+print("X_test Evaluation: ", model.evaluate(X_test, y_test))

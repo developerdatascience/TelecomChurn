@@ -67,6 +67,6 @@ df_encoded[cols_to_scale] = scaler.fit_transform(df_encoded[cols_to_scale])
 
 print("=========Exporting the Transformed data to csv format============")
 df_encoded.to_csv("inputs/Processed_data.csv", index=False)
-print("=========Data Exported to csv format===============")
+print("==========Data Exported to csv format===============")
 
 
