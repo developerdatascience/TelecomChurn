@@ -19,7 +19,9 @@ print("X_test: ", X_test.shape)
 
 
 model = keras.Sequential([
-    keras.layers.Dense(3, input_shape=(26,), activation='relu'),
+    tf.keras.layers.Dense(3, input_shape=(26,), activation='relu'),
+    tf.keras.layers.Dense(3, input_shape=(26,), activation='relu'),
+    tf.keras.layers.Dense(2, input_shape=(26,), activation='relu'),
     keras.layers.Dense(1, activation='sigmoid')
 ])
 
