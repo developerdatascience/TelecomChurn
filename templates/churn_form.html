@@ -38,7 +38,7 @@
                 </div>
                 <div class="input-box">
                     <label for="tenure">Tenure</label>
-                    <input type="text" id="tenure" name="tenure" placeholder="Enter Your Tenure">
+                    <input type="text" id="tenure" name="tenure" placeholder="Enter Your Tenure" onkeyup="total(this.value)">
                 </div>
                 <div class="input-box">
                     <label for="phone">Phone Service</label>
@@ -149,7 +149,7 @@
                 </div>
                 <div class="input-box">
                     <label for="monthlycharges">Monthly Charges</label>
-                    <input type="text" id="monthlycharges" name="monthlycharges" placeholder="Enter Monthly Charges">
+                    <input type="text" id="monthlycharges" name="monthlycharges" placeholder="Enter Monthly Charges" onkeyup="total(this.value)">
                 </div>
                 <div class="input-box">
                     <label for="totalcharges">Total Charges</label>
@@ -161,6 +161,6 @@
             </div>
         </form>
     </div>
-    
+    <script src="script.js"></script>    
 </body>
 </html>
