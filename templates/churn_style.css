@@ -136,3 +136,14 @@ form .button input:hover{
         overflow-y: scroll;
     }
 }
+
+@media (max-width: 2560px) {
+    body{
+        height: 120vh;
+
+    }
+    .container{
+        height: 115vh;
+    }
+
+}
