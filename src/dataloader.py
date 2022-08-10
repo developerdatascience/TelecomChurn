@@ -1,8 +1,9 @@
 import pandas as pd
 from categorical import CategoricalFeatures
-
+import utils
 from typing import List
 
+from sklearn.preprocessing import MinMaxScaler
 
 df = pd.read_csv("inputs/telecom_raw.csv")
 print(df.head())
@@ -26,4 +27,22 @@ cats = CategoricalFeatures(
 
 full_transformed_data = cats.fit_transform()
 print(full_transformed_data.head())
+
+utils.drop_bad_col(df=full_transformed_data)
+
+cols_to_scale = ["tenure", "MonthlyCharges", "TotalCharges"]
+
+# Scaling Tenure, MonhtlyCharges and TotalCharges
+scaler= MinMaxScaler()
+
+full_transformed_data[cols_to_scale] = scaler.fit_transform(full_transformed_data[cols_to_scale])
+
+print(full_transformed_data.head())
+
+
+# Outputting the processed file to output directory for modelling purpose
+
+full_transformed_data.to_csv("outputs/Processed_data.csv", index=False)
+
+
 
