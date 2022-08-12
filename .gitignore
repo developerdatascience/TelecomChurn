@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+.DS_Store
+
 #HTML files
 templates/home.html
 templates/style.css
