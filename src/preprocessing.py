@@ -1,72 +1,35 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-
-
+import utils
+from categorical import Categorical
 from sklearn.preprocessing import MinMaxScaler
 
+def processing(raw_data_path: str, filename: str)-> pd.DataFrame:
+    """
+    raw_data_path: path of input file to be processsed eg. inputs/
+    filename: name of raw data file in csv format.
+    """
+    df = pd.read_csv(raw_data_path+filename)
+    print(df.shape)
+    # Dropping the rows having TotalCharges null
 
-telecom_data = pd.read_csv("inputs/telecom_raw.csv")
+    non_missing_df = df[df.TotalCharges != ' ']
+    print("Missing values in TotalCharges Column:",non_missing_df.shape)
 
-print(telecom_data.shape)
+    non_missing_df.TotalCharges = pd.to_numeric(non_missing_df.TotalCharges)
+    utils.replace_no_internet_service(df= non_missing_df)
+    utils.drop_bad_col(df= non_missing_df)
 
-# Dropping the rows having TotalCharges null
+    cols_to_scale = ["tenure", "MonthlyCharges", "TotalCharges"]
+    scaler = MinMaxScaler()
+    non_missing_df[cols_to_scale] = scaler.fit_transform(non_missing_df[cols_to_scale])
 
-modified_telecom_data = telecom_data[telecom_data.TotalCharges != ' ']
-print("Missing values in TotalCharges Column:",modified_telecom_data.shape)
+    print("=========Exporting the Transformed data to csv format============")
+    non_missing_df.to_csv("inputs/Processed_data.csv", index=False)
+    print("==========Data Exported to csv format===============")
+    return non_missing_df
 
-modified_telecom_data.TotalCharges = pd.to_numeric(modified_telecom_data.TotalCharges)
+if __name__=="__main__":
+    processing(raw_data_path="inputs/", filename="telecom_raw.csv")
 
-tenure_churn_no = modified_telecom_data[modified_telecom_data["Churn"]=='No'].tenure
-tenure_churn_yes = modified_telecom_data[modified_telecom_data.Churn =='Yes'].tenure
-
-# plt.hist([tenure_churn_no, tenure_churn_yes],rwidth=.95, color=['red', 'green'], label=['Churn=No', 'Churn=Yes'])
-# plt.legend()
-# plt.show()
-
-modified_telecom_data.replace('No internet service', 'No', inplace= True)
-modified_telecom_data.replace('No phone service', 'No', inplace= True)
-
-yes_no_columns = ['Partner', 'Dependents', 'PhoneService','MultipleLines', 'OnlineSecurity', 'OnlineBackup', 
-                'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies', 'PaperlessBilling', 'Churn'
-                ]
-
-yes_no_encoding = {'Yes': 1, 'No': 0}
-
-for column in yes_no_columns:
-    modified_telecom_data[column].replace(yes_no_encoding, inplace=True)
-
-for col in modified_telecom_data:
-    if modified_telecom_data[col].dtypes == 'object':
-        print(f'{col}: {modified_telecom_data[col].unique()}')
-
-modified_telecom_data["gender"].replace({"Male":0, "Female":1}, inplace= True)
-
-# Creating new dataframe with encoded categorical variables
-
-df_encoded = pd.get_dummies(data=modified_telecom_data, columns=["InternetService", "Contract", "PaymentMethod"])
-
-def drop_bad_col():
-    for col in df_encoded:
-        if "Unnamed: 0" in col:
-            print("===========Dropping Unnamed: 0 column============")
-            return df_encoded.drop("Unnamed: 0", axis=1, inplace=True)
-        else:
-            print("===========No Unnamed: 0 column found============")
-            return df_encoded
-
-drop_bad_col()
-
-
-cols_to_scale = ["tenure", "MonthlyCharges", "TotalCharges"]
-
-
-scaler = MinMaxScaler()
-
-df_encoded[cols_to_scale] = scaler.fit_transform(df_encoded[cols_to_scale])
-
-
-print("=========Exporting the Transformed data to csv format============")
-df_encoded.to_csv("inputs/Processed_data.csv", index=False)
-print("==========Data Exported to csv format===============")
 
 
