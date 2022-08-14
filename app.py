@@ -14,7 +14,7 @@ from flask import Flask, render_template, jsonify, app, url_for, request
 app = Flask(__name__)
 
 clf = joblib.load(os.path.join("models/", "randomforest_0.pkl"))
-base_data = pd.read_csv("https://raw.githubusercontent.com/pik1989/MLProject-ChurnPrediction/main/first_telc.csv")
+base_data = pd.read_csv("outputs/base_data.csv")
 
 @app.route('/')
 def home():
