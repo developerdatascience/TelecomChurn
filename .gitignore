@@ -8,6 +8,8 @@ __pycache__/
 
 .DS_Store
 
+.mypy_cache
+
 #HTML files
 templates/home.html
 templates/style.css
